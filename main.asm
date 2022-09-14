@@ -201,6 +201,8 @@ include macros.asm
 	posPin4 db 0b, '$' 
 	contador db '0', '$'
 
+	contadorJugador1 db 0b, '$' ;TODO IMPLEMENTAR
+	contadorJugador2 db 0b, '$' ;TODO IMPLEMENTAR
 
 
 	aux db 0b
@@ -462,6 +464,7 @@ main proc
 
 		mov contador, '0'
 		mov barcosJ1agregados, '1'
+		mov turno, '2'
 		cmp barcosJ2agregados, '0'
 		je AGREGARBARCOSJ2  
 		jmp MENSAJEINICIOJUEGO
@@ -546,6 +549,7 @@ main proc
 		
 		mov contador, '0'
 		mov barcosJ2agregados, '1' 
+		mov turno, '1'
 		cmp barcosJ1agregados, '0'
 		je AGREGARBARCOSJ1
 		jmp MENSAJEINICIOJUEGO
@@ -932,9 +936,9 @@ main proc
 		print msg_yadisparo
 		getChar
 		cmp turno, '1'
-		je CONFIRMAATAQUE1
+		je JUG1
 		cmp turno, '2'
-		je CONFIRMAATAQUE2
+		je JUG2
 
 
 main endp
