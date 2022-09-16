@@ -239,7 +239,10 @@ include macros.asm
 	bufferHora db 8 dup('0')
 	bufferFecha db 8 dup('0')
 	rutaArchivo db 100 dup('$')
+	
 	bufferLectura db 200 dup('$')
+	bufferLecturaLimpio db 200 dup('$')
+
 	bufferEscritura db 200 dup('$')
 	rutaNomHtml db 'SHOWHTM.htm', 00h
 	handleFichero dw ?
@@ -290,6 +293,7 @@ include macros.asm
 
 ;*HTML
 	inicioHtml db '<html>', 10,13, '<head>', 10,13,9, '<title>201807079</title>', 10,13, '</head>', 10,13, '<body bgcolor=#A9A9A9>', 10,13,9, '<H1 align="center">', 00h ;20D08C;FED7CE
+	h1html db '<H1 align="center" ', 00h
 	cierreH1 db '</H1>', 10,13, 00h
 	inicioTabla db 9, '<center>', 10,13, '<table border=0 cellspacing=2 cellpadding=2>', 10,13, 00h ; bgcolor=#005b96
 	tr db 9,9, '<tr align=center>', 00h
@@ -297,9 +301,9 @@ include macros.asm
 	finHtml db 9, '</table>', 10,13, '</center>', 10,13, '</body>', 10,13, '</html>', 00h
 	fichaXH db 0ah, 0dh, 9, '		<td bgcolor="cadetblue">X</td>', 00h
 	fichaOH db 0ah, 0dh, 9, '		<td bgcolor="burlywood">O</td>', 00h
-	
+	br db 0ah, 0dh, 9, '<br/>', 00h
 	ficha1H db 0ah, 0dh, 9, '		<td bgcolor="blue">1</td>', 00h
-	ficha2H db 0ah, 0dh, 9, '		<td bgcolor="rellow">2</td>', 00h
+	ficha2H db 0ah, 0dh, 9, '		<td bgcolor="yellow">2</td>', 00h
 	ficha3H db 0ah, 0dh, 9, '		<td bgcolor="red">3</td>', 00h
 	ficha4H db 0ah, 0dh, 9, '		<td bgcolor="orange">4</td>', 00h
 	ficha5H db 0ah, 0dh, 9, '		<td bgcolor="grey">5</td>', 00h
@@ -329,7 +333,7 @@ main proc
 		cmp al, '1'
 		je NUEVO
 		cmp al, '2'
-		je CARGAR
+		je MenuPrincipal
 		cmp al, '3'
 		je SALIR 
 		jne MenuPrincipal
@@ -350,27 +354,30 @@ main proc
 		imprimirArq SIZEOF barcos18J1, separadorComa, separadorPC, barcos18J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
 		imprimirArq SIZEOF barcos19J1, separadorComa, separadorPC, barcos19J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero 
 		imprimirArq SIZEOF barcos20J1, separadorComa, separadorPC, barcos20J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+  
+		imprimirArq SIZEOF barcos11J2, separadorComa, separadorPC, barcos11J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos12J2, separadorComa, separadorPC, barcos12J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos13J2, separadorComa, separadorPC, barcos13J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos14J2, separadorComa, separadorPC, barcos14J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos15J2, separadorComa, separadorPC, barcos15J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos16J2, separadorComa, separadorPC, barcos16J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos17J2, separadorComa, separadorPC, barcos17J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos18J2, separadorComa, separadorPC, barcos18J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos19J2, separadorComa, separadorPC, barcos19J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero 
+		imprimirArq SIZEOF barcos20J2, separadorComa, separadorPC, barcos20J2, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
  
+
 
 		cerrarArchivo handleFichero
 		print msg_guardad 
 		getChar
-
-		mov bufferLectura, '$'
-		print bufferLectura
+  
 		cmp turno, '1'
 		je JUG1
 		cmp turno, '2'
 		je JUG2 
 
 	SHOW:
-		cmp turno, '1'
-		je SHOW1
-		cmp turno, '2'
-		je SHOW2
-
-	SHOW1:
-		
 		print msg_generar
 		print infoNomArch
 		crearArchivo rutaNomHtml,handleFichero
@@ -383,6 +390,17 @@ main proc
 		escribirArchivo SIZEOF bufferHora, bufferHora, handleFichero
 		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
 		escribirArchivo SIZEOF inicioTabla, inicioTabla, handleFichero 
+
+		cmp turno, '1'
+		je SHOW1
+		cmp turno, '2'
+		je SHOW2
+
+	SHOW1:
+		
+		escribirArchivo SIZEOF h1html, h1html, handleFichero 
+		escribirArchivo SIZEOF tableroSuperior, tableroSuperior, handleFichero 
+		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
 
 		imprimirHtml SIZEOF disparos1J1, fichaXH, FICHAOH, disparos1J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
 		imprimirHtml SIZEOF disparos2J1, fichaXH, FICHAOH, disparos2J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
@@ -394,34 +412,56 @@ main proc
 		imprimirHtml SIZEOF disparos8J1, fichaXH, FICHAOH, disparos8J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
 		imprimirHtml SIZEOF disparos9J1, fichaXH, FICHAOH, disparos9J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
 		imprimirHtml SIZEOF disparos10J1, fichaXH, FICHAOH, disparos10J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
-
-
-		escribirArchivo  SIZEOF finHtml, finHtml, handleFichero
-		cerrarArchivo handleFichero
-		print msg_general
-		cmp turno, '1'
-		je JUG1
-		cmp turno, '2'
-		je JUG2 
-
-	SHOW2:
-
-
-		print msg_generar
-		print infoNomArch
-		crearArchivo rutaNomHtml,handleFichero
-		abrirArchivo rutaNomHtml,handleFichero 
-
-		escribirArchivo SIZEOF inicioHtml, inicioHtml, handleFichero
-		fecha
-		hora
-		escribirArchivo SIZEOF bufferFecha, bufferFecha, handleFichero
-		escribirArchivo SIZEOF guion, guion, handleFichero
-		escribirArchivo SIZEOF bufferHora, bufferHora, handleFichero
+		
+		escribirArchivo SIZEOF h1html, h1html, handleFichero 
+		escribirArchivo SIZEOF tableroInferior, tableroInferior, handleFichero 
 		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
-		escribirArchivo SIZEOF inicioTabla, inicioTabla, handleFichero 
-		  
-		  
+		
+
+		imprimirHtml SIZEOF barcos11J1, fichaXH, FICHAOH, barcos11J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos12J1, fichaXH, FICHAOH, barcos12J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos13J1, fichaXH, FICHAOH, barcos13J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos14J1, fichaXH, FICHAOH, barcos14J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos15J1, fichaXH, FICHAOH, barcos15J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos16J1, fichaXH, FICHAOH, barcos16J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos17J1, fichaXH, FICHAOH, barcos17J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos18J1, fichaXH, FICHAOH, barcos18J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos19J1, fichaXH, FICHAOH, barcos19J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos20J1, fichaXH, FICHAOH, barcos20J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+
+
+		escribirArchivo SIZEOF h1html, h1html, handleFichero 
+		escribirArchivo SIZEOF datosJugador1, datosJugador1, handleFichero 
+
+
+		escribirArchivo SIZEOF disparosRealizados, disparosRealizados, handleFichero 
+		imprimirNumeros decenaTotalesJ1, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero 
+		imprimirNumeros unidadTotalesJ1, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero  
+
+		escribirArchivo SIZEOF disparosAcertados, disparosAcertados, handleFichero
+		imprimirNumeros decenaImpactadosJ1, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+		imprimirNumeros unidadImpactadosJ1, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+
+		escribirArchivo SIZEOF disparosFallidos, disparosFallidos, handleFichero
+		imprimirNumeros decenaFalladosJ1, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+		imprimirNumeros unidadFalladosJ1, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
+
+
+
+		jmp EFINHTML
+
+	SHOW2: 
+		escribirArchivo SIZEOF h1html, h1html, handleFichero 
+		escribirArchivo SIZEOF tableroSuperior, tableroSuperior, handleFichero 
+		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
+		  		  
 		imprimirHtml SIZEOF disparos1J2, fichaXH, FICHAOH, disparos1J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
 		imprimirHtml SIZEOF disparos2J2, fichaXH, FICHAOH, disparos2J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
 		imprimirHtml SIZEOF disparos3J2, fichaXH, FICHAOH, disparos3J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
@@ -433,16 +473,57 @@ main proc
 		imprimirHtml SIZEOF disparos9J2, fichaXH, FICHAOH, disparos9J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
 		imprimirHtml SIZEOF disparos10J2, fichaXH, FICHAOH, disparos10J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
 		
+		escribirArchivo SIZEOF h1html, h1html, handleFichero 
+		escribirArchivo SIZEOF tableroInferior, tableroInferior, handleFichero 
+		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
+
+		imprimirHtml SIZEOF barcos11J2, fichaXH, FICHAOH, barcos11J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos12J2, fichaXH, FICHAOH, barcos12J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos13J2, fichaXH, FICHAOH, barcos13J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos14J2, fichaXH, FICHAOH, barcos14J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos15J2, fichaXH, FICHAOH, barcos15J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos16J2, fichaXH, FICHAOH, barcos16J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos17J2, fichaXH, FICHAOH, barcos17J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos18J2, fichaXH, FICHAOH, barcos18J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos19J2, fichaXH, FICHAOH, barcos19J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF barcos20J2, fichaXH, FICHAOH, barcos20J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+
+		
+		escribirArchivo SIZEOF h1html, h1html, handleFichero 
+		escribirArchivo SIZEOF datosJugador2, datosJugador2, handleFichero 
+
+
+		escribirArchivo SIZEOF disparosRealizados, disparosRealizados, handleFichero 
+		imprimirNumeros decenaTotalesJ2, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero 
+		imprimirNumeros unidadTotalesJ2, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero  
+
+		escribirArchivo SIZEOF disparosAcertados, disparosAcertados, handleFichero
+		imprimirNumeros decenaImpactadosJ2, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+		imprimirNumeros unidadImpactadosJ2, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+
+		escribirArchivo SIZEOF disparosFallidos, disparosFallidos, handleFichero
+		imprimirNumeros decenaFalladosJ2, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+		imprimirNumeros unidadFalladosJ2, auxNum
+		escribirArchivo SIZEOF auxNum, auxNum, handleFichero
+		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
+		
+		jmp EFINHTML
+
+	EFINHTML: 
 		escribirArchivo  SIZEOF finHtml, finHtml, handleFichero
 		cerrarArchivo handleFichero
 		print msg_general
+		getChar
 		cmp turno, '1'
 		je JUG1
 		cmp turno, '2'
-		je JUG2 
+		je JUG2  
 	
-	CARGAR:
-		jmp MenuPrincipal
     NUEVO:
 		print msg_nvo  
 
@@ -613,6 +694,7 @@ main proc
 		mov columnaAtaque, al
 
 		print msgfilaAtaque
+
 		ObtenerTexto bufferLectura 
 		comparacion1 comandoExit, bufferLectura
 		comparacion2 comandoSave, bufferLectura
@@ -717,6 +799,8 @@ main proc
 
 	GANADORJUGADOR1: 
 		print ganaJugador1
+		getChar
+		imprimirTableroSuperior
 		getChar
 		jmp IMPRIMIRDATOSJUGADORES
 
@@ -836,7 +920,11 @@ main proc
 
 	GANADORJUGADOR2:
 		print ganaJugador2
-		getChar    
+		
+		getChar
+		imprimirTbaleroSuperior2
+		getChar
+
 		jmp IMPRIMIRDATOSJUGADORES
 
 		 
@@ -882,7 +970,7 @@ main proc
 		cmp al, '1'
 		je NUEVO
 		cmp al, '2'
-		je CARGAR
+		je MenuPrincipal
 		cmp al, '3'
 		je SALIR 
 		jne MENUAUXILIAR
