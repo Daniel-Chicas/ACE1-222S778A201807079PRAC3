@@ -1,53 +1,114 @@
-getChar macro
-    mov ah, 01h
-    int 21h
-endm
+	getChar macro
+		mov ah, 01h
+		int 21h
+	endm
 
-print macro cadena
-    mov ah, 09h
-    mov dx, offset cadena
-    int 21h
-endm
- 
+	print macro cadena
+		mov ah, 09h
+		mov dx, offset cadena
+		int 21h
+	endm
+	
 
-limpiar macro len, filaOriginal, filaPlantilla
-    LOCAL DO, COMPARE, FIN
-    PUSH SI
-    PUSH AX
-    xor si, si
-    DO:
-        mov al, [filaPlantilla+si]		;AQUI
-        mov filaOriginal[si], al
-        jmp COMPARE
-    COMPARE:
-        inc si 				;AQUI
-        cmp si, len 		;AQUI
-        jb DO
-        jmp FIN
-    FIN:
-        POP AX
-        POP SI
-endm
+	limpiar macro len, filaOriginal, filaPlantilla
+		LOCAL DO, COMPARE, FIN
+		PUSH SI
+		PUSH AX
+		xor si, si
+		DO:
+			mov al, [filaPlantilla+si]		;AQUI
+			mov filaOriginal[si], al
+			jmp COMPARE
+		COMPARE:
+			inc si 				;AQUI
+			cmp si, len 		;AQUI
+			jb DO
+			jmp FIN
+		FIN:
+			POP AX
+			POP SI
+	endm
 
 
-ObtenerTexto macro buffer
-	LOCAL CONTINUE, FIN
-	PUSH SI
-	PUSH AX
-	xor si, si
-	CONTINUE:
-		getChar
-		cmp al, 0dh
-		je FIN
-		mov buffer[si], al
-		inc si
-		jmp CONTINUE
-	FIN:
-		mov al, '$'
-		mov buffer[si], al
-	POP AX
-	POP SI
-endm
+	ObtenerTexto macro buffer
+		LOCAL CONTINUE, FIN
+		PUSH SI
+		PUSH AX
+		xor si, si
+		CONTINUE:
+			getChar
+			cmp al, 0dh
+			je FIN
+			mov buffer[si], al
+			inc si
+			jmp CONTINUE
+		FIN:
+			mov al, '$'
+			mov buffer[si], al
+		POP AX
+		POP SI
+	endm
+	
+	imprimirTableroInferior macro
+		imprimir SIZEOF barcos11J1, fichaX, fichaO, y1, vc, barcos11J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos12J1, fichaX, fichaO, y2, vc, barcos12J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos13J1, fichaX, fichaO, y3, vc, barcos13J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos14J1, fichaX, fichaO, y4, vc, barcos14J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos15J1, fichaX, fichaO, y5, vc, barcos15J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos16J1, fichaX, fichaO, y6, vc, barcos16J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos17J1, fichaX, fichaO, y7, vc, barcos17J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos18J1, fichaX, fichaO, y8, vc, barcos18J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos19J1, fichaX, fichaO, y9, vc, barcos19J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos20J1, fichaX, fichaO, y10, vc, barcos20J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		print xcord
+		print division
+	endm
+
+	imprimirTableroSuperior macro
+		imprimir SIZEOF disparos1J1, fichaX, fichaO, y1, vc, disparos1J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos2J1, fichaX, fichaO, y2, vc, disparos2J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos3J1, fichaX, fichaO, y3, vc, disparos3J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos4J1, fichaX, fichaO, y4, vc, disparos4J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos5J1, fichaX, fichaO, y5, vc, disparos5J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos6J1, fichaX, fichaO, y6, vc, disparos6J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos7J1, fichaX, fichaO, y7, vc, disparos7J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos8J1, fichaX, fichaO, y8, vc, disparos8J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos9J1, fichaX, fichaO, y9, vc, disparos9J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos10J1, fichaX, fichaO, y10, vc, disparos10J1, ln, saltoLinea, B1, B2, B3, B4, B5
+		print xcord
+		print division
+	endm
+
+	imprimirBarcos2 macro
+		imprimir SIZEOF barcos11J2, fichaX, fichaO, y1, vc, barcos11J2, ln, saltoLinea, B1, B2, B3, B4, B5 
+		imprimir SIZEOF barcos12J2, fichaX, fichaO, y2, vc, barcos12J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos13J2, fichaX, fichaO, y3, vc, barcos13J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos14J2, fichaX, fichaO, y4, vc, barcos14J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos15J2, fichaX, fichaO, y5, vc, barcos15J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos16J2, fichaX, fichaO, y6, vc, barcos16J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos17J2, fichaX, fichaO, y7, vc, barcos17J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos18J2, fichaX, fichaO, y8, vc, barcos18J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos19J2, fichaX, fichaO, y9, vc, barcos19J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF barcos20J2, fichaX, fichaO, y10, vc, barcos20J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		print xcord
+		print division
+	endm
+
+	imprimirTbaleroSuperior2 macro
+		imprimir SIZEOF disparos1J2, fichaX, fichaO, y1, vc, disparos1J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos2J2, fichaX, fichaO, y2, vc, disparos2J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos3J2, fichaX, fichaO, y3, vc, disparos3J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos4J2, fichaX, fichaO, y4, vc, disparos4J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos5J2, fichaX, fichaO, y5, vc, disparos5J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos6J2, fichaX, fichaO, y6, vc, disparos6J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos7J2, fichaX, fichaO, y7, vc, disparos7J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos8J2, fichaX, fichaO, y8, vc, disparos8J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos9J2, fichaX, fichaO, y9, vc, disparos9J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		imprimir SIZEOF disparos10J2, fichaX, fichaO, y10, vc, disparos10J2, ln, saltoLinea, B1, B2, B3, B4, B5
+		print xcord
+		print division
+	endm
+  
  
 
 ;******************* IMPRIMIR EN CONSOLA Y ARCHIVOS ******************* 
@@ -284,76 +345,26 @@ endm
 
 		SIGUIENTE:
 			cmp f1, '1'
-			je Fi1
+			je Fi1V
 			cmp f1, '2'
-			je Fi2
+			je Fi2V
 			cmp f1, '3'
-			je Fi3
+			je Fi3V
 			cmp f1, '4'
-			je Fi4
+			je Fi4V
 			cmp f1, '5'
-			je Fi5
+			je Fi5V
 			cmp f1, '6'
-			je Fi6
+			je Fi6V
 			cmp f1, '7'
-			je Fi7
+			je Fi7V
 			cmp f1, '8'
-			je Fi8
+			je Fi8V
 			cmp f1, '9'
-			je Fi9
+			je Fi9V
 			cmp f1, '0'
-			je Fi0 
+			je Fi0V
 			jmp ERROR_COORD
-			Fi0: 
-				cmp orientacion, '0'
-				je Fi0V
-				mostrarBarcosY fila10, col, idBarco, orientacion, fila10, fila10, fila10, fila10, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi9: 
-				cmp orientacion, '0'
-				je Fi9V
-				mostrarBarcosY fila9, col, idBarco, orientacion, fila9, fila9, fila9, fila9, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi8: 
-				cmp orientacion, '0'
-				je Fi8V
-				mostrarBarcosY fila8, col, idBarco, orientacion, fila8, fila8, fila8, fila8, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi7: 
-				cmp orientacion, '0'
-				je Fi7V
-				mostrarBarcosY fila7, col, idBarco, orientacion, fila7, fila7, fila7, fila7, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi6: 
-				cmp orientacion, '0'
-				je Fi6V
-				mostrarBarcosY fila6, col, idBarco, orientacion, fila6, fila6, fila6, fila6, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi5: 
-				cmp orientacion, '0'
-				je Fi5V
-				mostrarBarcosY fila5, col, idBarco, orientacion, fila5, fila5, fila5, fila5, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi4:
-				cmp orientacion, '0'
-				je Fi4V
-				mostrarBarcosY fila4, col, idBarco, orientacion, fila4, fila4, fila4, fila4, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi3:
-				cmp orientacion, '0'
-				je Fi3V
-				mostrarBarcosY fila3, col, idBarco, orientacion, fila3, fila3, fila3, fila3, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi2:
-				cmp orientacion, '0'
-				je Fi2V
-				mostrarBarcosY fila2, col, idBarco, orientacion, fila2, fila2, fila2, fila2, turno, pos2, pos3, pos4, pos5
-				jmp FIN
-			Fi1:
-				cmp orientacion, '0'
-				je Fi1V
-				mostrarBarcosY fila1, col, idBarco, orientacion, fila1, fila1, fila1, fila1, turno, pos2, pos3, pos4, pos5
-				jmp FIN
 			Fi0V: 
 				mostrarBarcosY fila10, col, idBarco, orientacion, fila9, fila8, fila7, fila6, turno, pos2, pos3, pos4, pos5
 				jmp FIN
@@ -708,8 +719,8 @@ endm
 
 	endm
 
-	marcarDisparo macro fila, posicionColumna, disparos, barcos, turno
-		LOCAL BARCO1V, BARCO2V, BARCO3V, BARCO4V, BARCO5V, NADA, FIN, ERROR
+	marcarDisparo macro fila, posicionColumna, disparos, barcos, turno, unidadTotales, decenaTotales, unidadImpactados, decenaImpactados, unidadFallados, decenaFallados
+		LOCAL BARCO1V, BARCO2V, BARCO3V, BARCO4V, BARCO5V, NADA, FIN, ERROR, IMPACTO, FALLO
 		PUSH SI
 		PUSH DX
 		xor si, si
@@ -718,13 +729,13 @@ endm
 		MOV DH, 0
 		MOV SI, DX
 		 
-
+		sumaContadores unidadTotales, decenaTotales
 		 
 		cmp disparos[si], 110b
 		je ERROR
 		cmp disparos[si], 111b
 		je ERROR
-			
+		
 		cmp barcos[si], 001b
 		je BARCO1V
 		cmp barcos[si], 010b 
@@ -740,34 +751,45 @@ endm
 		BARCO1V:
 			mov disparos[si], 110b 
 			mov barcos[si], 110b 
-			jmp FIN
+			jmp IMPACTO
 
 		BARCO2V: 
 			mov disparos[si], 110b  
 			mov barcos[si], 110b  
-			jmp FIN
+			jmp IMPACTO
 
 		BARCO3V: 
 			mov disparos[si], 110b  
 			mov barcos[si], 110b  
-			jmp FIN
+			jmp IMPACTO
 
 		BARCO4V: 
 			mov disparos[si], 110b  
 			mov barcos[si], 110b  
-			jmp FIN
+			jmp IMPACTO
 
 		BARCO5V: 
 			mov disparos[si], 110b  
 			mov barcos[si], 110b  
-			jmp FIN
+			jmp IMPACTO
 
 		NADA:
 			mov disparos[si], 111b  
 			mov barcos[si], 111b  
+			jmp FALLO 
+
+		IMPACTO:
+			sumaContadores unidadImpactados, decenaImpactados
 			jmp FIN 
+
+		FALLO:
+			sumaContadores unidadFallados, decenaFallados
+			jmp FIN 
+
+
 		ERROR:
 			jmp ERRORYADISPARO
+
 		FIN:	
 			;MENSAJE
 			POP DX
@@ -776,7 +798,131 @@ endm
 	endm
 
 
-	imprimir macro len, fichaX, fichaO, y, vc, f, ln, enter, B1, B2, B3, B4, B5
+ 	contadorBarcos macro len, f, cb1, cb2, cb3, cb4, cb5
+		LOCAL DO, VER1, VER2, VER3, VER4, VER5, VER6, VER7, VERVC, FIN, COMPARE
+ 
+		PUSH SI
+		PUSH AX
+		xor si, si
+		DO:
+			mov al, [f+si] 
+			cmp al, 001b
+			je VER1
+			cmp al, 010b
+			je VER2
+			cmp al, 011b
+			je VER3
+			cmp al, 100b
+			je VER4
+			cmp al, 101b
+			je VER5
+			jmp FIN
+		COMPARE:
+			inc si  
+			cmp si, len  
+			jb DO
+			jmp FIN
+		VER1:
+			inc cb1
+			jmp COMPARE
+		VER2:
+			inc cb1
+			jmp COMPARE	
+		VER3: 
+			inc cb1
+			jmp COMPARE	
+		VER4:
+			inc cb1
+			jmp COMPARE	
+		VER5:
+			inc cb1
+			jmp COMPARE	  
+		FIN:
+			POP AX
+			POP SI 
+	endm
+
+
+	sumaContadores macro unidades, decenas
+		LOCAL UNIDAD, DECENA, FIN
+		cmp unidades, 9d
+		jl UNIDAD
+		cmp unidades, 9d
+		je DECENA
+
+		UNIDAD:
+			inc unidades
+			jmp FIN
+		DECENA: 
+			cmp decenas, 9d
+			je FINJUEGO
+
+			inc decenas 
+			mov unidades, 0d
+			jmp FIN
+
+		FIN: 
+	endm
+
+	imprimirNumeros macro numero, aux
+		LOCAL NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, FIN
+		cmp numero, 0d
+		je NUM0
+		cmp numero, 1d
+		je NUM1
+		cmp numero, 2d
+		je NUM2
+		cmp numero, 3d
+		je NUM3
+		cmp numero, 4d
+		je NUM4
+		cmp numero, 5d
+		je NUM5
+		cmp numero, 6d
+		je NUM6
+		cmp numero, 7d
+		je NUM7
+		cmp numero, 8d
+		je NUM8
+		cmp numero, 9d
+		je NUM9
+
+		NUM0:
+			mov aux, '0' 
+			jmp FIN
+		NUM1:
+			mov aux, '1' 
+			jmp FIN
+		NUM2:
+			mov aux, '2' 
+			jmp FIN
+		NUM3:
+			mov aux, '3' 
+			jmp FIN
+		NUM4:
+			mov aux, '4' 
+			jmp FIN
+		NUM5:
+			mov aux, '5' 
+			jmp FIN
+		NUM6:
+			mov aux, '6' 
+			jmp FIN
+		NUM7:
+			mov aux, '7' 
+			jmp FIN
+		NUM8:
+			mov aux, '8' 
+			jmp FIN
+		NUM9:
+			mov aux, '9'
+			jmp FIN
+		
+		FIN:
+			print aux 
+	endm
+
+ 	imprimir macro len, fichaX, fichaO, y, vc, f, ln, enter, B1, B2, B3, B4, B5
 		LOCAL DO, VER1, VER2, VER3, VER4, VER5, VER6, VER7, VERVC, FIN, COMPARE
 
 		;000b->VACIO 	001b->FX 	100b->FO	010b->P		011b->Q		101b->R
@@ -837,10 +983,10 @@ endm
 			POP SI
 			print enter
 	endm
- 
-
-	imprimirHtml macro len, fb, fn, f, vb, vn, tr, ctr, handleFichero
-		LOCAL DO, VERFN, VERFB, VERVB, VERVN, FIN, COMPARE
+  
+	imprimirHtml macro len, fb, fn, f, vb, vn, tr, ctr, f1, f2, f3, f4, f5, handleFichero
+		LOCAL DO, COMPARE, VER1, VER2, VER3, VER4, VER5, VER6, VER7, VERVC, FIN
+		
 		PUSH SI
 		PUSH AX
 		xor si, si
@@ -848,28 +994,48 @@ endm
 		DO:
 			mov al, [f+si]		;AQUI
 			cmp al, 001b
-			je VERFB
+			je VER1
+			cmp al, 010b
+			je VER2
+			cmp al, 011b
+			je VER3
 			cmp al, 100b
-			je VERFN
-			cmp al, 000b
-			je VERVB
-			jmp VERVN
+			je VER4
+			cmp al, 101b
+			je VER5
+			cmp al, 110b
+			je VER6	;FICHA X
+			cmp al, 111b
+			je VER7 ;FICHA O
+			jmp VERVC
 		COMPARE:
 			inc si 				;AQUI
 			cmp si, len 		;AQUI
 			jb DO
 			jmp FIN
-		VERFB:
+		VER1:
+			escribirArchivo SIZEOF f1, f1, handleFichero
+			jmp COMPARE
+		VER2:
+			escribirArchivo SIZEOF f2, f2, handleFichero
+			jmp COMPARE
+		VER3:
+			escribirArchivo SIZEOF f3, f3, handleFichero
+			jmp COMPARE
+		VER4:
+			escribirArchivo SIZEOF f4, f4, handleFichero
+			jmp COMPARE
+		VER5:
+			escribirArchivo SIZEOF f5, f5, handleFichero
+			jmp COMPARE
+		VER6:
 			escribirArchivo SIZEOF fb, fb, handleFichero
 			jmp COMPARE
-		VERFN:
+		VER7: 
 			escribirArchivo SIZEOF fn, fn, handleFichero
-			jmp COMPARE	
-		VERVB:
-			escribirArchivo SIZEOF vb, vb, handleFichero
 			jmp COMPARE
-		VERVN:
-			escribirArchivo SIZEOF vn, vn, handleFichero
+		VERVC: 
+			escribirArchivo SIZEOF vb, vb, handleFichero
 			jmp COMPARE
 		FIN:
 			escribirArchivo SIZEOF ctr, ctr, handleFichero
@@ -877,93 +1043,79 @@ endm
 			POP SI
 	endm
 
-	imprimirArq macro len, sc, spc, f, char0, char1, char2, char3, char4, handleFichero
-		LOCAL DO, VERFN, VERFB, VERFP, VERFQ, VERFR, VERFRI, VERVC, VERFPB, VERFRB, VERFRIB, VERFQB, FIN, COMPARE
+	imprimirArq macro len, sc, spc, f, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		LOCAL DO, FIN, COMPARE, UNO, DOS, TRES, CUATRO, CINCO, CERO, EQUIS, CIRCULO
 		PUSH SI
 		PUSH AX
 		xor si, si
 
 		mov al, [f+si]
 		cmp al, 001b
-		je VERFB
-		cmp al, 100b
-		je VERFN
+		je UNO
 		cmp al, 010b
-		je VERFP
+		je DOS
 		cmp al, 011b
-		je VERFQ
+		je TRES
+		cmp al, 100b
+		je CUATRO
 		cmp al, 101b
-		je VERFR
+		je CINCO
 		cmp al, 110b
-		je VERFRI
-		cmp al, 1100b
-		je VERFPB
-		cmp al, 1101b
-		je VERFRIB
-		cmp al, 1111b
-		je VERFRB
-		cmp al, 1110b
-		je VERFQB
-		jmp VERVC
+		je EQUIS
+		cmp al, 111b
+		je CIRCULO
+
+		jmp CERO
 
 		DO:
 			escribirArchivo SIZEOF sc, sc, handleFichero
-			mov al, [f+si]
+			
+			mov al, [f+si] 
 			cmp al, 001b
-			je VERFB
-			cmp al, 100b
-			je VERFN
+			je UNO
 			cmp al, 010b
-			je VERFP
+			je DOS
 			cmp al, 011b
-			je VERFQ
+			je TRES
+			cmp al, 100b
+			je CUATRO
 			cmp al, 101b
-			je VERFR
+			je CINCO
 			cmp al, 110b
-			je VERFRI
-			cmp al, 1100b
-			je VERFPB
-			cmp al, 1101b
-			je VERFRIB
-			cmp al, 1111b
-			je VERFRB
-			cmp al, 1110b
-			je VERFQB
-			jmp VERVC
+			je EQUIS
+			cmp al, 111b
+			je CIRCULO
+
+			jmp CERO
 		COMPARE:
-			inc si 				;AQUI
-			cmp si, len 		;AQUI
+			inc si  
+			cmp si, len  
 			jb DO
 			jmp FIN
-		VERFB:		;FX
-			escribirArchivo SIZEOF char1, char1, handleFichero
-			jmp COMPARE
-		VERFN:		;FO
-			escribirArchivo SIZEOF char2, char2, handleFichero
-			jmp COMPARE	
-		VERVC:		;VACIO
+		CERO:		;FX
 			escribirArchivo SIZEOF char0, char0, handleFichero
 			jmp COMPARE
-		VERFP:		;P	 
+		UNO:		;FO
+			escribirArchivo SIZEOF char1, char1, handleFichero
 			jmp COMPARE	
-		VERFQ:		;Q 
-			jmp COMPARE	
-		VERFR:		;R
+		DOS:		;VACIO
+			escribirArchivo SIZEOF char2, char2, handleFichero
+			jmp COMPARE
+		TRES:  
 			escribirArchivo SIZEOF char3, char3, handleFichero
 			jmp COMPARE	
-		VERFRI:		;RI
-			escribirArchivo SIZEOF char4, char4, handleFichero 
-			jmp COMPARE
-		VERFPB:		;BLANCA P
-			jmp COMPARE
-		VERFRB:		;BLANCA R
-			escribirArchivo SIZEOF char3, char3, handleFichero
-			jmp COMPARE
-		VERFRIB:	;BLANCA RI
+		CUATRO: 
 			escribirArchivo SIZEOF char4, char4, handleFichero
 			jmp COMPARE
-		VERFQB:		;BLANCA Q
+		CINCO: 
+			escribirArchivo SIZEOF char5, char5, handleFichero
+			jmp COMPARE	
+		EQUIS: 
+			escribirArchivo SIZEOF charX, charX, handleFichero 
 			jmp COMPARE
+		CIRCULO: 
+			escribirArchivo SIZEOF charO, charO, handleFichero 
+			jmp COMPARE 
 		FIN:
 			escribirArchivo SIZEOF spc, spc, handleFichero
 			POP AX
@@ -1173,88 +1325,7 @@ endm
 		FIN: 
 
 	endm
- 
-	colocarXP macro f1, pos1, fila6, fila5, fila4, fila3, fila2, fila1, fila7, turno
-		LOCAL F5, F4, F3, FIN, F22, F11
-		cmp f1, '1'
-		je F11
-		cmp f1, '2'
-		je F22
-		cmp f1, '3'
-		je F3
-		cmp f1, '4'
-		je F4
-		cmp f1, '5'
-		je F5
-		jmp INGRESAR
-		F5:
-			moverAbajo pos1, fila5, fila4, fila3, fila2, fila1
-			colocarYP fila5, pos1, fila6, fila5, fila4, fila3, fila2, fila1, fila7, turno
-			je FIN
-		F4:
-			colocarYP fila4, pos1, fila6, fila5, fila4, fila3, fila2, fila1, fila7, turno
-			je FIN
-		F3:
-			colocarYP fila3, pos1, fila6, fila5, fila4, fila3, fila2, fila1, fila7, turno
-			je FIN
-		F22:
-			colocarYP fila2, pos1, fila6, fila5, fila4, fila3, fila2, fila1, fila7, turno
-			je FIN
-		F11:
-			colocarYP fila1, pos1, fila6, fila5, fila4, fila3, fila2, fila1, fila7, turno
-			je FIN
-		FIN:
-			
-	endm
-
-	colocarYP macro f, pos1, fila6, fila5, fila4, fila3, fila2, fila1, fila7, turno
-		LOCAL VALIDACION1, CompX, CompO, M1, FIN, M2
-		PUSH SI
-		PUSH DX
-		xor si, si
-
-		MOV DL, pos1
-		MOV DH, 0
-		MOV SI, DX
-
-		VALIDACION1:
-			cmp turno, 0b
-			je CompX
-
-			cmp turno, 1b
-			je CompO
-
-		CompX:
-			cmp f[si], 000b
-			je M1;VALIDACION2
-
-			cmp f[si], 100b
-			je ERROR_SEL
-
-			jmp FIN
-
-		CompO: 
-			cmp f[si], 000b
-			je M2;VALIDACION2
-
-			cmp f[si], 001b
-			je ERROR_SEL
-
-			jmp FIN
-
-		M1:
-			mov f[si], 001b
-			jmp FIN;M2
-
-		M2: 
-			mov f[si], 100b
-			jmp FIN
-
-		FIN:	
-			;MENSAJE
-			POP DX
-			POP SI
-	endm
+  
  
 ;******************* MACROS PARA COMPARACION DE COMANDOS ****************
 
@@ -1542,6 +1613,24 @@ endm
 		POP SI
 	endm
 
+	comparacion1S1 macro comandoE, buffer
+		PUSH SI
+		PUSH AX
+		xor si, si
+
+		mov CX, 50
+		mov AX, DS
+		mov ES, AX
+		lea si, comandoE
+		lea di, buffer
+		
+		repne cmpsw
+		je MenuPrincipal
+		jmp IMPRIMIRDATOSJUGADORES
+		POP AX
+		POP SI
+	endm
+ 
 
 ;*************************** MACROS PARA LOS ARCHIVOS *******************************
 	Ruta macro buffer

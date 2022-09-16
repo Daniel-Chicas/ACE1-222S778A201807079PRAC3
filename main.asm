@@ -1,5 +1,6 @@
-include macros.asm
-.MODEL small 
+include macros.asm 
+.MODEL LARGE 
+.386
 .STACK 
 
 ;*************************************************************** DECLARACION DE VARIABLES ***************************************************************************
@@ -11,9 +12,7 @@ include macros.asm
 	insertar db 0ah, "> Inserte la posicion para ingresar la pieza: ", "$"
 
 	pruebacarga db 0ah, "CARGA", "$"
-	pruebasalir db 0ah, "SALIR", "$"
-	pruebaGeneral db 0ah, 'AQUÍ VOY', '$'
-	pruebaGeneralS db 0ah, 'SALÍ', '$'
+	pruebasalir db 0ah, "SALIR", "$" 
 
 
 
@@ -38,11 +37,7 @@ include macros.asm
 	y10 db ' 10 |', '$'
 	xcord db 0ah, 0dh, 32,32,32,32,32, ' J     I    H    G    F    E    D    C    B    A', 10,13,'$'
 
-;**FICHAS DEL JUEGO
-	fichaPb db  '     ', '$'
-	fichaQb db  '     ', '$'
-	fichaRb db  '     ', '$'
-	fichaRIb db '    |', '$'
+;**FICHAS DEL JUEGO 
 	fichaX db  ' X  |', '$'
 	fichaO db  ' O  |', '$' 
 
@@ -66,8 +61,7 @@ include macros.asm
 	tableroInferior db 0ah, 0dh, '-> TABLERO INFERIOR', 10,13, '$'
 	turno1 db 0ah, 0dh, ' > Turno Jugador 1: ', '$'
 	turno2 db 0ah, 0dh, ' > Turno Jugador 2: ', '$'
-	saltoLinea db 0ah, 0dh, '$'
-	salto db 0ah, 0dh, 00h
+	saltoLinea db 0ah, 0dh, '$' 
 
 
 
@@ -84,7 +78,7 @@ include macros.asm
 	barcosFaltan db 0ah, 0dh, 'Falta Agregar los barcos: ', '$'
 	barcoID db 0ah, 0dh, ' --> ID DEL BARCO: ', '$'
 	msgdireccionBarco db 0ah, 0dh, 'DIRECCION DEL BARCO (1 = HORIZONTAL / 0 = VERTICAL): ', '$'
-	confirmacionBarcos db 0ah, 0dh, '      <<< MATRIZ DE BARCOS AGREGADOS (PRESIONE ENTER PARA CONTINUAR) >>> ', 10, 13, '$'
+	confirmacionBarcos db 0ah, 0dh, '      <<< BARCOS AGREGADOS CORRECTAMENTE (PRESIONE ENTER PARA CONTINUAR) >>> ', 10, 13, '$'
 									 
 	BNS db '    Bote Neumatico', '$'
 	DAS2 db '    Destructor Americano', '$'
@@ -176,12 +170,8 @@ include macros.asm
 
 ;*VARIABLES DEL JUEGO
 	turno db 0b
-	f1 db 1 dup('$')
-	col1 db 1 dup('$')
-	pos1 db 0b
-	f2 db 1 dup('$') 
-	pos2 db 0b
-	barcoSeleccionado db 0b, '$'
+	f1 db 1 dup('$') 
+	pos1 db 0b   
 
 	filaBarco db 0b, '$'
 	columnaBarco db 0b, '$'
@@ -200,20 +190,49 @@ include macros.asm
 	posPin3 db 0b, '$'
 	posPin4 db 0b, '$' 
 	contador db '0', '$'
-
-	contadorJugador1 db 0b, '$' ;TODO IMPLEMENTAR
-	contadorJugador2 db 0b, '$' ;TODO IMPLEMENTAR
-
-
-	aux db 0b
+  
 
 	separadorPC db ';'
 	separadorComa db ',' 
 	tipoCoord db 0b 
 	division db '------------------------------------------------------------------', '$'    
 	msg_errorC db '-- Atencion, Coordenadas Erroneas --', 10,13, '$'
-	msg_PosOcupada db 0ah,0dh,'-------- Esta ficha ya fue ocupada por el contrincante --------','$' 
-	msg_Orilla db 0ah, 0dh, '-------- Solo se pueden seleccionar fichas posicionadas en el perimetro del cuadrado --------', '$'
+	msg_PosOcupada db 0ah,0dh,'-------- Esta ficha ya fue ocupada por el contrincante --------','$'
+	ganaJugador2 db 0ah,0dh,'>>>>>>>>>>>>>> Gana el Jugador 2 ','$'
+	ganaJugador1 db 0ah,0dh,'>>>>>>>>>>>>>> Gana el Jugador 1','$'
+	msgSalida db 0ah,0dh,'>>>>>>>>>>>>>> INGRESE EL COMANDO EXIT PARA SALIR ','$'
+
+	msg_finalJuego db 0ah,0dh,'-------- El juego ha finalizado :D --------','$'
+
+	barcosSobrevivientes db 0ah, 0dh, '--> Barcos disponibles: ', '$'
+	barcosRivales db 0ah, 0dh, '--> Barcos rivales: ', '$'
+	
+	datosJugador1 db 0ah, 0dh, '--> Datos del Jugador 1: ', '$'
+	datosJugador2 db 0ah, 0dh, '--> Datos del Jugador 2: ', '$'
+
+	disparosRealizados db 0ah, 0dh, '       Disparos realizados: ', '$'
+	disparosAcertados db 0ah, 0dh, '        Disparos acertados: ', '$'
+	disparosFallidos db 0ah, 0dh, '         Disparos fallidos: ', '$'
+
+	contadorBarcosPropios db 0d, '$'
+	unidadTotalesJ1 db 0d, '$'
+	decenaTotalesJ1 db 0d, '$'
+	unidadImpactadosJ1 db 0d, '$'
+	decenaImpactadosJ1 db 0d, '$'
+	unidadFalladosJ1 db 0d, '$'
+	decenaFalladosJ1 db 0d, '$'
+	
+	contadorBarcosRivales db 0d, '$' 
+	unidadTotalesJ2 db 0d, '$'
+	decenaTotalesJ2 db 0d, '$'
+	unidadImpactadosJ2 db 0d, '$'
+	decenaImpactadosJ2 db 0d, '$'
+	unidadFalladosJ2 db 0d, '$'
+	decenaFalladosJ2 db 0d, '$'
+	auxNum db '0', '$'
+ 
+	juga1 db 0ah, 0dh, 'Jugador1', 10, 13
+	juga2 db 0ah, 0dh, 'Jugador2', 10, 13
 
 ;*VARIABLES FICHERO
 	guion db '-'
@@ -228,15 +247,19 @@ include macros.asm
 	msmError2 db 0ah,0dh,'Error al leer archivo','$'
 	msmError3 db 0ah,0dh,'Error al crear archivo','$'
 	msmError4 db 0ah,0dh,'Error al Escribir archivo','$'
-	msg_errorOcupado db 0ah,0dh,'-------- EL BARCO NO CABE EN LA POSICIÓN INDICADA --------','$'
-	msg_yadisparo db 0ah,0dh,'-------- YA DISPARASTE EN ESTA POSICIÓN --------','$'
+	msg_errorOcupado db 0ah,0dh,'-------- EL BARCO NO CABE EN LA POSICION INDICADA --------','$'
+	msg_yadisparo db 0ah,0dh,'-------- YA DISPARASTE EN ESTA POSICION --------','$'
 
 ;*VARIABLES DE CARGA DEL JUEGO
 	char0 db 	'0'
-	char1 db 	'X'
-	char2 db 	'O'
+	char1 db 	'1'
+	char2 db 	'2'
 	char3 db 	'3'
 	char4 db 	'4'
+	char5 db 	'5'
+	
+	charX db 	'X'
+	charO db 	'O'
 	
 ;*VARIABLES COMANDOS
 	comandoFila1 db '1','$'
@@ -250,13 +273,9 @@ include macros.asm
 	comandoFila9 db '9','$'
 	comandoFila10 db '10','$'
 
-	comandoExit db 'EXIT','$'
-	comandoSave db 'SAVE','$'
-	comandoShow db 'SHOWHTM', '$'
-	comandoP db 	'P', '$'
-	comandoQ db 	'Q', '$'
-	comandoR db 	'R', '$'
-	comandoRI db 	'RI', '$'
+	comandoExit db 'SALIR','$'
+	comandoSave db 'GUARDAR','$'
+	comandoShow db 'SHOWHTM', '$' 
 
 	extension db '.arq', '$'
 	msg_salir db 0ah, 0dh, '-------- PARTIDA FINALIZADA --------', '$'
@@ -276,8 +295,15 @@ include macros.asm
 	tr db 9,9, '<tr align=center>', 00h
 	ctr db 0ah, 0dh, 9,9, '</tr>', 10,13, 00h
 	finHtml db 9, '</table>', 10,13, '</center>', 10,13, '</body>', 10,13, '</html>', 00h
-	fichaB db 0ah, 0dh, 9, '		<td bgcolor="cadetblue">X</td>', 00h
-	fichaN db 0ah, 0dh, 9, '		<td bgcolor="burlywood">O</td>', 00h
+	fichaXH db 0ah, 0dh, 9, '		<td bgcolor="cadetblue">X</td>', 00h
+	fichaOH db 0ah, 0dh, 9, '		<td bgcolor="burlywood">O</td>', 00h
+	
+	ficha1H db 0ah, 0dh, 9, '		<td bgcolor="blue">1</td>', 00h
+	ficha2H db 0ah, 0dh, 9, '		<td bgcolor="rellow">2</td>', 00h
+	ficha3H db 0ah, 0dh, 9, '		<td bgcolor="red">3</td>', 00h
+	ficha4H db 0ah, 0dh, 9, '		<td bgcolor="orange">4</td>', 00h
+	ficha5H db 0ah, 0dh, 9, '		<td bgcolor="grey">5</td>', 00h
+
 	VacioB db 0ah, 0dh, 9, '		<td bgcolor="white" width=47px; height=125px;> </td>', 00h
 	VacioN db 0ah, 0dh, 9, '		<td bgcolor="brown" width=47px; height=125px;> </td>', 00h
 
@@ -307,56 +333,122 @@ main proc
 		cmp al, '3'
 		je SALIR 
 		jne MenuPrincipal
-    
+	SAVE:
+		print msg_guardar
+		print cinNomArch
+		Ruta rutaArchivo
+		crearArchivo rutaArchivo,handleFichero
+		abrirArchivo rutaArchivo,handleFichero  
+ 
+		imprimirArq SIZEOF barcos11J1, separadorComa, separadorPC, barcos11J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos12J1, separadorComa, separadorPC, barcos12J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos13J1, separadorComa, separadorPC, barcos13J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos14J1, separadorComa, separadorPC, barcos14J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos15J1, separadorComa, separadorPC, barcos15J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos16J1, separadorComa, separadorPC, barcos16J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos17J1, separadorComa, separadorPC, barcos17J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos18J1, separadorComa, separadorPC, barcos18J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+		imprimirArq SIZEOF barcos19J1, separadorComa, separadorPC, barcos19J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero 
+		imprimirArq SIZEOF barcos20J1, separadorComa, separadorPC, barcos20J1, char0, char1, char2, char3, char4, char5, charX, charO, handleFichero
+ 
+
+		cerrarArchivo handleFichero
+		print msg_guardad 
+		getChar
+
+		mov bufferLectura, '$'
+		print bufferLectura
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2 
+
+	SHOW:
+		cmp turno, '1'
+		je SHOW1
+		cmp turno, '2'
+		je SHOW2
+
+	SHOW1:
+		
+		print msg_generar
+		print infoNomArch
+		crearArchivo rutaNomHtml,handleFichero
+		abrirArchivo rutaNomHtml,handleFichero 
+		escribirArchivo SIZEOF inicioHtml, inicioHtml, handleFichero
+		fecha
+		hora
+		escribirArchivo SIZEOF bufferFecha, bufferFecha, handleFichero
+		escribirArchivo SIZEOF guion, guion, handleFichero
+		escribirArchivo SIZEOF bufferHora, bufferHora, handleFichero
+		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
+		escribirArchivo SIZEOF inicioTabla, inicioTabla, handleFichero 
+
+		imprimirHtml SIZEOF disparos1J1, fichaXH, FICHAOH, disparos1J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos2J1, fichaXH, FICHAOH, disparos2J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos3J1, fichaXH, FICHAOH, disparos3J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos4J1, fichaXH, FICHAOH, disparos4J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos5J1, fichaXH, FICHAOH, disparos5J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos6J1, fichaXH, FICHAOH, disparos6J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos7J1, fichaXH, FICHAOH, disparos7J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos8J1, fichaXH, FICHAOH, disparos8J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos9J1, fichaXH, FICHAOH, disparos9J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos10J1, fichaXH, FICHAOH, disparos10J1, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+
+
+		escribirArchivo  SIZEOF finHtml, finHtml, handleFichero
+		cerrarArchivo handleFichero
+		print msg_general
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2 
+
+	SHOW2:
+
+
+		print msg_generar
+		print infoNomArch
+		crearArchivo rutaNomHtml,handleFichero
+		abrirArchivo rutaNomHtml,handleFichero 
+
+		escribirArchivo SIZEOF inicioHtml, inicioHtml, handleFichero
+		fecha
+		hora
+		escribirArchivo SIZEOF bufferFecha, bufferFecha, handleFichero
+		escribirArchivo SIZEOF guion, guion, handleFichero
+		escribirArchivo SIZEOF bufferHora, bufferHora, handleFichero
+		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
+		escribirArchivo SIZEOF inicioTabla, inicioTabla, handleFichero 
+		  
+		  
+		imprimirHtml SIZEOF disparos1J2, fichaXH, FICHAOH, disparos1J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos2J2, fichaXH, FICHAOH, disparos2J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos3J2, fichaXH, FICHAOH, disparos3J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos4J2, fichaXH, FICHAOH, disparos4J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos5J2, fichaXH, FICHAOH, disparos5J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos6J2, fichaXH, FICHAOH, disparos6J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos7J2, fichaXH, FICHAOH, disparos7J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos8J2, fichaXH, FICHAOH, disparos8J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos9J2, fichaXH, FICHAOH, disparos9J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		imprimirHtml SIZEOF disparos10J2, fichaXH, FICHAOH, disparos10J2, VacioB, VacioN, tr, ctr, ficha1H, ficha2H, ficha3H, ficha4H, ficha5H, handleFichero
+		
+		escribirArchivo  SIZEOF finHtml, finHtml, handleFichero
+		cerrarArchivo handleFichero
+		print msg_general
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2 
+	
+	CARGAR:
+		jmp MenuPrincipal
     NUEVO:
-		print msg_nvo 
-		limpiar SIZEOF fi20, barcos20J1, fi20
-		limpiar SIZEOF fi19, barcos19J1, fi19
-		limpiar SIZEOF fi18, barcos18J1, fi18
-		limpiar SIZEOF fi17, barcos17J1, fi17
-		limpiar SIZEOF fi16, barcos16J1, fi16
-		limpiar SIZEOF fi15, barcos15J1, fi15
-		limpiar SIZEOF fi14, barcos14J1, fi14
-		limpiar SIZEOF fi13, barcos13J1, fi13
-		limpiar SIZEOF fi12, barcos12J1, fi12
-		limpiar SIZEOF fi11, barcos11J1, fi11
-
-		limpiar SIZEOF fi10, disparos10J1, fi10
-		limpiar SIZEOF fi9, disparos9J1, fi9
-		limpiar SIZEOF fi8, disparos8J1, fi8
-		limpiar SIZEOF fi7, disparos7J1, fi7
-		limpiar SIZEOF fi6, disparos6J1, fi6
-		limpiar SIZEOF fi5, disparos5J1, fi5
-		limpiar SIZEOF fi4, disparos4J1, fi4
-		limpiar SIZEOF fi3, disparos3J1, fi3
-		limpiar SIZEOF fi2, disparos2J1, fi2
-		limpiar SIZEOF fi1, disparos1J1, fi1
-
-		limpiar SIZEOF fi20, barcos20J2, fi20
-		limpiar SIZEOF fi19, barcos19J2, fi19
-		limpiar SIZEOF fi18, barcos18J2, fi18
-		limpiar SIZEOF fi17, barcos17J2, fi17
-		limpiar SIZEOF fi16, barcos16J2, fi16
-		limpiar SIZEOF fi15, barcos15J2, fi15
-		limpiar SIZEOF fi14, barcos14J2, fi14
-		limpiar SIZEOF fi13, barcos13J2, fi13
-		limpiar SIZEOF fi12, barcos12J2, fi12
-		limpiar SIZEOF fi11, barcos11J2, fi11
-
-		limpiar SIZEOF fi10, disparos10J2, fi10
-		limpiar SIZEOF fi9, disparos9J2, fi9
-		limpiar SIZEOF fi8, disparos8J2, fi8
-		limpiar SIZEOF fi7, disparos7J2, fi7
-		limpiar SIZEOF fi6, disparos6J2, fi6
-		limpiar SIZEOF fi5, disparos5J2, fi5
-		limpiar SIZEOF fi4, disparos4J2, fi4
-		limpiar SIZEOF fi3, disparos3J2, fi3
-		limpiar SIZEOF fi2, disparos2J2, fi2
-		limpiar SIZEOF fi1, disparos1J2, fi1
+		print msg_nvo  
 
 		limpiar SIZEOF bd2, barcosDisponibles1, bd2
 		limpiar SIZEOF bd2, barcosDisponibles2, bd2
-
+ 
 		CALL ObtenerRandom 
 		mov turno, dl ;Guarda el turno del jugador
 
@@ -371,31 +463,18 @@ main proc
 		getChar
 		cmp al, 13
 		jne EMPIEZAJ1
-		je AGREGARBARCOSJ1 ;TODO REGRESAR A ESTE
-		;je JUG1
+		je AGREGARBARCOSJ1
 	EMPIEZAJ2:
 		print empieza2
 		print ln	
 		getChar
 		cmp al, 13
 		jne EMPIEZAJ2
-		je AGREGARBARCOSJ2 ;TODO REGRESAR A ESTE
-		;je JUG2
+		je AGREGARBARCOSJ2
 	AGREGARBARCOSJ1: 
 		CICLOJ1:
 			print msgBarcos1
-			imprimir SIZEOF barcos11J1, fichaX, fichaO, y1, vc, barcos11J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos12J1, fichaX, fichaO, y2, vc, barcos12J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos13J1, fichaX, fichaO, y3, vc, barcos13J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos14J1, fichaX, fichaO, y4, vc, barcos14J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos15J1, fichaX, fichaO, y5, vc, barcos15J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos16J1, fichaX, fichaO, y6, vc, barcos16J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos17J1, fichaX, fichaO, y7, vc, barcos17J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos18J1, fichaX, fichaO, y8, vc, barcos18J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos19J1, fichaX, fichaO, y9, vc, barcos19J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos20J1, fichaX, fichaO, y10, vc, barcos20J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			print xcord
-			print division
+			imprimirTableroInferior
 
 			print barcosFaltan 
 			imprimirBarcosDisponibles SIZEOF barcosDisponibles1, boteNeumatico, destructorAmericano, destructorJapones, acorazado, portaAviones, vcB, barcosDisponibles1, ln, saltoLinea
@@ -435,30 +514,14 @@ main proc
 			
 			mostrarBarcosX filaBarco, posicionXBarco, idBarco, direccionBarco, barcos11J1, barcos12J1, barcos13J1, barcos14J1, barcos15J1, barcos16J1, barcos17J1, barcos18J1, barcos19J1, barcos20J1, posPin1, posPin2, posPin3, posPin4, turno 
 			limpiarIDBarco pos1, barcosDisponibles1, contador
-			
-			jmp SALIDACICLOJ1
-		SALIDACICLOJ1: 
+			 
 			cmp contador, '5'
 			jb CICLOJ1 
 			POP AX
 			POP SI 
 		
 		
-		print confirmacionBarcos
-		imprimir SIZEOF barcos11J1, fichaX, fichaO, y1, vc, barcos11J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos12J1, fichaX, fichaO, y2, vc, barcos12J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos13J1, fichaX, fichaO, y3, vc, barcos13J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos14J1, fichaX, fichaO, y4, vc, barcos14J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos15J1, fichaX, fichaO, y5, vc, barcos15J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos16J1, fichaX, fichaO, y6, vc, barcos16J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos17J1, fichaX, fichaO, y7, vc, barcos17J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos18J1, fichaX, fichaO, y8, vc, barcos18J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos19J1, fichaX, fichaO, y9, vc, barcos19J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos20J1, fichaX, fichaO, y10, vc, barcos20J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		print xcord
-		print division
-
-
+		print confirmacionBarcos 
 		getChar
 		
 
@@ -473,18 +536,7 @@ main proc
 		 
 		CICLOJ2: 
 			print msgBarcos2
-			imprimir SIZEOF barcos11J2, fichaX, fichaO, y1, vc, barcos11J2, ln, saltoLinea, B1, B2, B3, B4, B5 
-			imprimir SIZEOF barcos12J2, fichaX, fichaO, y2, vc, barcos12J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos13J2, fichaX, fichaO, y3, vc, barcos13J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos14J2, fichaX, fichaO, y4, vc, barcos14J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos15J2, fichaX, fichaO, y5, vc, barcos15J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos16J2, fichaX, fichaO, y6, vc, barcos16J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos17J2, fichaX, fichaO, y7, vc, barcos17J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos18J2, fichaX, fichaO, y8, vc, barcos18J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos19J2, fichaX, fichaO, y9, vc, barcos19J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos20J2, fichaX, fichaO, y10, vc, barcos20J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			print xcord
-			print division
+			imprimirBarcos2
 
 			print barcosFaltan 
 			imprimirBarcosDisponibles SIZEOF barcosDisponibles2, boteNeumatico, destructorAmericano, destructorJapones, acorazado, portaAviones, vcB, barcosDisponibles2, ln, saltoLinea
@@ -524,27 +576,13 @@ main proc
 			
 			mostrarBarcosX filaBarco, posicionXBarco, idBarco, direccionBarco, barcos11J2, barcos12J2, barcos13J2, barcos14J2, barcos15J2, barcos16J2, barcos17J2, barcos18J2, barcos19J2, barcos20J2, posPin1, posPin2, posPin3, posPin4, turno 
 			limpiarIDBarco pos1, barcosDisponibles2, contador
-			
-			jmp SALIDACICLOJ2
-		SALIDACICLOJ2:
+			 
 			cmp contador, '5'
 			jb CICLOJ2
 			POP AX
 			POP SI 
 			
-		print confirmacionBarcos
-		imprimir SIZEOF barcos11J2, fichaX, fichaO, y1, vc, barcos11J2, ln, saltoLinea, B1, B2, B3, B4, B5 
-		imprimir SIZEOF barcos12J2, fichaX, fichaO, y2, vc, barcos12J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos13J2, fichaX, fichaO, y3, vc, barcos13J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos14J2, fichaX, fichaO, y4, vc, barcos14J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos15J2, fichaX, fichaO, y5, vc, barcos15J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos16J2, fichaX, fichaO, y6, vc, barcos16J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos17J2, fichaX, fichaO, y7, vc, barcos17J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos18J2, fichaX, fichaO, y8, vc, barcos18J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos19J2, fichaX, fichaO, y9, vc, barcos19J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF barcos20J2, fichaX, fichaO, y10, vc, barcos20J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		print xcord
-		print division
+		print confirmacionBarcos 
 		getChar
 		
 		mov contador, '0'
@@ -559,27 +597,14 @@ main proc
 		getChar
 		cmp al, 13
 		jne MENSAJEINICIOJUEGO
-		jmp INGRESAR
-	INGRESAR:
 		cmp turno, '1'
 		je JUG1
 		cmp turno, '2'
 		je JUG2
-		jmp MenuPrincipal
+		jmp MenuPrincipal 
 	JUG1: 
 		print tableroSuperior
-		imprimir SIZEOF disparos1J1, fichaX, fichaO, y1, vc, disparos1J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos2J1, fichaX, fichaO, y2, vc, disparos2J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos3J1, fichaX, fichaO, y3, vc, disparos3J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos4J1, fichaX, fichaO, y4, vc, disparos4J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos5J1, fichaX, fichaO, y5, vc, disparos5J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos6J1, fichaX, fichaO, y6, vc, disparos6J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos7J1, fichaX, fichaO, y7, vc, disparos7J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos8J1, fichaX, fichaO, y8, vc, disparos8J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos9J1, fichaX, fichaO, y9, vc, disparos9J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos10J1, fichaX, fichaO, y10, vc, disparos10J1, ln, saltoLinea, B1, B2, B3, B4, B5
-		print xcord
-		print division
+		imprimirTableroSuperior
 		
 		print turno1
 		print datosAtacar
@@ -588,7 +613,7 @@ main proc
 		mov columnaAtaque, al
 
 		print msgfilaAtaque
-		ObtenerTexto bufferLectura
+		ObtenerTexto bufferLectura 
 		comparacion1 comandoExit, bufferLectura
 		comparacion2 comandoSave, bufferLectura
 		comparacion3 comandoShow, bufferLectura
@@ -636,81 +661,68 @@ main proc
 		je MARCAD10
 		
 		MARCAD1:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos1J1, barcos11J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos1J1, barcos11J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos2J1, barcos12J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos2J1, barcos12J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD3:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos3J1, barcos13J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos3J1, barcos13J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD4:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos4J1, barcos14J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos4J1, barcos14J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD5:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos5J1, barcos15J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos5J1, barcos15J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD6:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos6J1, barcos16J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos6J1, barcos16J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD7:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos7J1, barcos17J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos7J1, barcos17J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD8:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos8J1, barcos18J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos8J1, barcos18J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD9:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos9J1, barcos19J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos9J1, barcos19J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		MARCAD10:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos10J1, barcos20J2, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos10J1, barcos20J2, turno, unidadTotalesJ1, decenaTotalesJ1, unidadImpactadosJ1, decenaImpactadosJ1, unidadFalladosJ1, decenaFalladosJ1
 			jmp FINATAQUE1
 		FINATAQUE1:
+  
 			print tableroSuperior
-			imprimir SIZEOF disparos1J1, fichaX, fichaO, y1, vc, disparos1J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos2J1, fichaX, fichaO, y2, vc, disparos2J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos3J1, fichaX, fichaO, y3, vc, disparos3J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos4J1, fichaX, fichaO, y4, vc, disparos4J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos5J1, fichaX, fichaO, y5, vc, disparos5J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos6J1, fichaX, fichaO, y6, vc, disparos6J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos7J1, fichaX, fichaO, y7, vc, disparos7J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos8J1, fichaX, fichaO, y8, vc, disparos8J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos9J1, fichaX, fichaO, y9, vc, disparos9J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos10J1, fichaX, fichaO, y10, vc, disparos10J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			print xcord
-			print division
+			imprimirTableroSuperior
 			getChar 
-			print tableroInferior
-			imprimir SIZEOF barcos11J1, fichaX, fichaO, y1, vc, barcos11J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos12J1, fichaX, fichaO, y2, vc, barcos12J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos13J1, fichaX, fichaO, y3, vc, barcos13J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos14J1, fichaX, fichaO, y4, vc, barcos14J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos15J1, fichaX, fichaO, y5, vc, barcos15J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos16J1, fichaX, fichaO, y6, vc, barcos16J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos17J1, fichaX, fichaO, y7, vc, barcos17J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos18J1, fichaX, fichaO, y8, vc, barcos18J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos19J1, fichaX, fichaO, y9, vc, barcos19J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos20J1, fichaX, fichaO, y10, vc, barcos20J1, ln, saltoLinea, B1, B2, B3, B4, B5
-			print xcord
-			print division
+			;print tableroInferior
+			;imprimirTableroInferior
+			;getChar 
+ 
+			cmp decenaImpactadosJ1, 1d
+			je CASITERMINAJUGADOR1
 
-			getChar 
-			jmp CAMBIAR_TURNO
+			cmp turno, '2'
+			je A_JUG1
+			cmp turno, '1'
+			je A_JUG2
+	CASITERMINAJUGADOR1:
+		cmp unidadImpactadosJ1, 7d
+		je GANADORJUGADOR1
+ 
+		cmp turno, '2'
+		je A_JUG1
+		cmp turno, '1'
+		je A_JUG2
+
+	GANADORJUGADOR1: 
+		print ganaJugador1
+		getChar
+		jmp IMPRIMIRDATOSJUGADORES
 
 	JUG2:		
 		print tableroSuperior
-		imprimir SIZEOF disparos1J2, fichaX, fichaO, y1, vc, disparos1J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos2J2, fichaX, fichaO, y2, vc, disparos2J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos3J2, fichaX, fichaO, y3, vc, disparos3J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos4J2, fichaX, fichaO, y4, vc, disparos4J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos5J2, fichaX, fichaO, y5, vc, disparos5J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos6J2, fichaX, fichaO, y6, vc, disparos6J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos7J2, fichaX, fichaO, y7, vc, disparos7J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos8J2, fichaX, fichaO, y8, vc, disparos8J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos9J2, fichaX, fichaO, y9, vc, disparos9J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		imprimir SIZEOF disparos10J2, fichaX, fichaO, y10, vc, disparos10J2, ln, saltoLinea, B1, B2, B3, B4, B5
-		print xcord
-		print division
+		imprimirTbaleroSuperior2
 
 		print turno2 
 
@@ -767,164 +779,148 @@ main proc
 		je MARCAD10_2
 		
 		MARCAD1_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos1J2, barcos11J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos1J2, barcos11J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD2_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos2J2, barcos12J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos2J2, barcos12J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD3_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos3J2, barcos13J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos3J2, barcos13J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD4_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos4J2, barcos14J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos4J2, barcos14J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD5_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos5J2, barcos15J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos5J2, barcos15J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD6_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos6J2, barcos16J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos6J2, barcos16J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD7_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos7J2, barcos17J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos7J2, barcos17J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD8_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos8J2, barcos18J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos8J2, barcos18J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD9_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos9J2, barcos19J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos9J2, barcos19J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		MARCAD10_2:
-			marcarDisparo filaAtaque, posicionXAtaque, disparos10J2, barcos20J1, turno
+			marcarDisparo filaAtaque, posicionXAtaque, disparos10J2, barcos20J1, turno, unidadTotalesJ2, decenaTotalesJ2, unidadImpactadosJ2, decenaImpactadosJ2, unidadFalladosJ2, decenaFalladosJ2
 			jmp FINATAQUE2
 		FINATAQUE2:
 			print tableroSuperior
-			imprimir SIZEOF disparos1J2, fichaX, fichaO, y1, vc, disparos1J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos2J2, fichaX, fichaO, y2, vc, disparos2J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos3J2, fichaX, fichaO, y3, vc, disparos3J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos4J2, fichaX, fichaO, y4, vc, disparos4J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos5J2, fichaX, fichaO, y5, vc, disparos5J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos6J2, fichaX, fichaO, y6, vc, disparos6J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos7J2, fichaX, fichaO, y7, vc, disparos7J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos8J2, fichaX, fichaO, y8, vc, disparos8J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos9J2, fichaX, fichaO, y9, vc, disparos9J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF disparos10J2, fichaX, fichaO, y10, vc, disparos10J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			print xcord
-			print division
+			imprimirTbaleroSuperior2
 			getChar
-			print tableroInferior
-			imprimir SIZEOF barcos11J2, fichaX, fichaO, y1, vc, barcos11J2, ln, saltoLinea, B1, B2, B3, B4, B5 
-			imprimir SIZEOF barcos12J2, fichaX, fichaO, y2, vc, barcos12J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos13J2, fichaX, fichaO, y3, vc, barcos13J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos14J2, fichaX, fichaO, y4, vc, barcos14J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos15J2, fichaX, fichaO, y5, vc, barcos15J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos16J2, fichaX, fichaO, y6, vc, barcos16J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos17J2, fichaX, fichaO, y7, vc, barcos17J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos18J2, fichaX, fichaO, y8, vc, barcos18J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos19J2, fichaX, fichaO, y9, vc, barcos19J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			imprimir SIZEOF barcos20J2, fichaX, fichaO, y10, vc, barcos20J2, ln, saltoLinea, B1, B2, B3, B4, B5
-			print xcord
-			print division		
-			getChar
- 			jmp CAMBIAR_TURNO
-	CAMBIAR_TURNO:
+			;print tableroInferior
+			;imprimirBarcos2	
+			;getChar
+			
+ 
+
+			cmp decenaImpactadosJ2, 1d
+			je CASITERMINAJUGADOR2
+			
+			cmp turno, '2'
+			je A_JUG1
+			cmp turno, '1'
+			je A_JUG2
+
+	CASITERMINAJUGADOR2:
+		cmp unidadImpactadosJ2, 7d
+		je GANADORJUGADOR2
 		cmp turno, '2'
 		je A_JUG1
 		cmp turno, '1'
 		je A_JUG2
 
+	GANADORJUGADOR2:
+		print ganaJugador2
+		getChar    
+		jmp IMPRIMIRDATOSJUGADORES
 
-	A_JUG1:
-		mov turno, '1'
-		jmp INGRESAR
+		 
 
-	A_JUG2:
-		mov turno, '2'
-		jmp INGRESAR
+	IMPRIMIRDATOSJUGADORES:
+		print datosJugador1
+		print disparosRealizados
+		imprimirNumeros decenaTotalesJ1, auxNum
+		imprimirNumeros unidadTotalesJ1, auxNum
 
-    CARGAR:
-		print pruebacarga
-		jmp MenuPrincipal
+		print disparosAcertados
+		imprimirNumeros decenaImpactadosJ1, auxNum
+		imprimirNumeros unidadImpactadosJ1, auxNum
+		
+		print disparosFallidos
+		imprimirNumeros decenaFalladosJ1, auxNum
+		imprimirNumeros unidadFalladosJ1 , auxNum
 
-    SALIR:
-		mov ah, 4ch
-		int 21h
+		print datosJugador2
+		print disparosAcertados
+		imprimirNumeros decenaTotalesJ2, auxNum
+		imprimirNumeros unidadTotalesJ2, auxNum
 
-	VolverTurno:
-		cmp turno, '1'
-		je JUG1
-		cmp turno, '2'
-		je JUG2
-		jmp MenuPrincipal
+		print disparosAcertados
+		imprimirNumeros decenaImpactadosJ2, auxNum
+		imprimirNumeros unidadImpactadosJ2, auxNum
+		
+		print disparosFallidos
+		imprimirNumeros decenaFalladosJ2, auxNum
+		imprimirNumeros unidadFalladosJ2, auxNum 
 
-;************************************************************************************ COMANDOS **********************************************************************
-	SAVE:
-		print msg_guardar
-		print cinNomArch
-		Ruta rutaArchivo
-		crearArchivo rutaArchivo,handleFichero
-		abrirArchivo rutaArchivo,handleFichero  
-		;imprimirArq SIZEOF fila5, separadorComa, separadorPC, fila5, char0, char1, char2, char3, char4, handleFichero
-		;imprimirArq SIZEOF fila4, separadorComa, separadorPC, fila4, char0, char1, char2, char3, char4, handleFichero
-		;imprimirArq SIZEOF fila3, separadorComa, separadorPC, fila3, char0, char1, char2, char3, char4, handleFichero
-		;imprimirArq SIZEOF fila2, separadorComa, separadorPC, fila2, char0, char1, char2, char3, char4, handleFichero
-		;imprimirArq SIZEOF fila1, separadorComa, separadorPC, fila1, char0, char1, char2, char3, char4, handleFichero 
-		cerrarArchivo handleFichero
-		print msg_guardad
-		jmp VolverTurno
+		print msgSalida
+		ObtenerTexto bufferLectura
+		comparacion1S1 comandoExit, bufferLectura
 
-	SHOW:
-		print msg_generar
-		print infoNomArch
-		crearArchivo rutaNomHtml,handleFichero
-		abrirArchivo rutaNomHtml,handleFichero 
-		escribirArchivo SIZEOF inicioHtml, inicioHtml, handleFichero
-		fecha
-		hora
-		escribirArchivo SIZEOF bufferFecha, bufferFecha, handleFichero
-		escribirArchivo SIZEOF guion, guion, handleFichero
-		escribirArchivo SIZEOF bufferHora, bufferHora, handleFichero
-		escribirArchivo SIZEOF cierreH1, cierreH1, handleFichero
-		escribirArchivo SIZEOF inicioTabla, inicioTabla, handleFichero  
-		;imprimirHtml SIZEOF fila5, fichaB, fichaN, fila5, VacioB, VacioN, tr, ctr, handleFichero
-		;imprimirHtml SIZEOF fila4, fichaB, fichaN, fila4, VacioB, VacioN, tr, ctr, handleFichero
-		;imprimirHtml SIZEOF fila3, fichaB, fichaN, fila3, VacioB, VacioN, tr, ctr, handleFichero
-		;imprimirHtml SIZEOF fila2, fichaB, fichaN, fila2, VacioB, VacioN, tr, ctr, handleFichero
-		;imprimirHtml SIZEOF fila1, fichaB, fichaN, fila1, VacioB, VacioN, tr, ctr, handleFichero 
-		escribirArchivo  SIZEOF finHtml, finHtml, handleFichero
-		cerrarArchivo handleFichero
-		print msg_general
-		jmp VolverTurno
-	
+		jmp MENUAUXILIAR
+
+ 
 ;************************************************************************************ ERRORES ***********************************************************************
-	
+	 MENUAUXILIAR: 
+		print menuOpciones 
+		getChar
+		cmp al, '1'
+		je NUEVO
+		cmp al, '2'
+		je CARGAR
+		cmp al, '3'
+		je SALIR 
+		jne MENUAUXILIAR
     ErrorLeer:
 	    print msmError2
 	   	getChar
 
 	ERROR_COORD:
 		print msg_errorC
-		jmp VolverTurno 
-
-	ERROR_SEL:
-		print msg_PosOcupada
-		jmp VolverTurno 
-	
-	ERROR_ORILLA:
-		print msg_Orilla
-		jmp VolverTurno
-	
-	ErrorCrear:
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2
+		jmp MENUAUXILIAR
+ 	ErrorCrear:
 	    print msmError3
 	    getChar
-	    jmp VolverTurno
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2
+		jmp MENUAUXILIAR
 
 	ErrorAbrir:
 	    print msmError1
 	   	getChar
-	   	jmp VolverTurno
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2
+		jmp MENUAUXILIAR
 	ErrorEscribir:
 	    print msmError4
-	   	jmp VolverTurno
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2
+		jmp MENUAUXILIAR
 	ERROROCUPADO:
 		print msg_errorOcupado
 		getChar
@@ -939,6 +935,34 @@ main proc
 		je JUG1
 		cmp turno, '2'
 		je JUG2
+
+	A_JUG1:
+		mov turno, '1'
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2
+		jmp MenuPrincipal
+
+	A_JUG2:
+		mov turno, '2'
+		cmp turno, '1'
+		je JUG1
+		cmp turno, '2'
+		je JUG2
+		jmp MenuPrincipal
+	FINJUEGO:
+		print msg_finalJuego
+		getChar
+    
+	SALIR:
+		mov ah, 4ch
+		int 21h
+
+
+;************************************************************************************ COMANDOS **********************************************************************
+
+
 
 
 main endp
@@ -990,6 +1014,7 @@ ObtenerRandom proc
 		add dl, '1'
 		ret
 ObtenerRandom endp
+ 
 
 
 end
